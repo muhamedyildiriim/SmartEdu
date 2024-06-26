@@ -9,21 +9,3 @@ exports.getAboutPage = (req, res) => {
     page_name: 'about',
   });
 };
-
-exports.getCoursesPage = (req, res) => {
-  res.status(200).render('courses', {
-    page_name: 'courses',
-  });
-};
-
-exports.getDashboardPage = (req, res) => {
-  res.status(200).render('dashboard', {
-    page_name: 'dashboard',
-  });
-};
-
-exports.getContactPage = (req, res) => {
-  res.status(200).render('contact', {
-    page_name: 'contact',
-  });
-};
