@@ -4,11 +4,7 @@ const bcrypt = require('bcrypt');
 exports.createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
-
-    res.status(201).json({
-      status: 'success',
-      user,
-    });
+    res.status(201).redirect('/login');
   } catch (error) {
     res.status(400).json({
       status: 'fail',
@@ -16,6 +12,8 @@ exports.createUser = async (req, res) => {
     });
   }
 };
+
+
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -26,7 +24,7 @@ exports.loginUser = async (req, res) => {
       if (same) {
         //USER SESSION
         req.session.userID = spesificUser._id;
-        res.status(200).redirect('/');
+        res.status(200).redirect('/users/dashboard');
       } else {
         res.status(400).json({
           status: 'fail',
@@ -41,3 +39,12 @@ exports.logoutUser = (req, res) => {
     res.redirect('/');
   });
 };
+
+exports.getDashboardPage = async (req, res) => {
+  const user = await User.findOne({_id:req.session.userID});
+
+  res.status(200).render('dashboard', {
+    user,
+    page_name: 'dashboard',
+  });
+}
