@@ -17,14 +17,19 @@ exports.createUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+
   const spesificUser = await User.findOne({ email });
 
   if (spesificUser) {
+    console.log("Spesific User");
+    console.log(spesificUser.password);
+    console.log(password)
+
     bcrypt.compare(password, spesificUser.password, (err, same) => {
       if (same) {
         //USER SESSION
         req.session.userID = spesificUser._id;
-        res.status(200).redirect('/users/dashboard');
+        res.status(200).redirect('/');
       } else {
         res.status(400).json({
           status: 'fail',

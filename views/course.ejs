@@ -37,7 +37,11 @@
 					
 					<div class="blog-author">
 						<div class="author-bio">
-							<h3 class="author_name"><a href="#"> <%= course.user.name %> </a></h3>
+							<% if (course.user) { %>
+								<h3 class="author_name"><a href="#"> <%= course.user.name %> </a></h3>
+							<% } else { %>
+								<h3 class="author_name"><a href="#"> Unknown Author </a></h3>
+							<% } %>
 						</div>
 					</div>
 					
