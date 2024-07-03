@@ -74,11 +74,13 @@ exports.getCourse = async (req, res) => {
   try {
     const course = await Course.findOne({slug: req.params.slug}).populate('user');
     const user = await User.findOne({_id: req.session.userID});
+    const categories = await Category.find();
 
     res.status(200).render('course', {
       course,
       user,
       page_name: 'courses',
+      categories,
     });
 
   } catch (error) {
