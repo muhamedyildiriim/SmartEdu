@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -25,14 +24,6 @@ const UserSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course"
   }]
-});
-
-UserSchema.pre('save', function (next) {
-  const user = this;
-  bcrypt.hash(user.password, 10, (error, hash) => {
-    user.password = hash;
-    next();
-  });
 });
 
 const User = mongoose.model('User', UserSchema);

@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Category = require('../models/Category');
 const Course = require('../models/Course');
@@ -20,26 +19,20 @@ exports.loginUser = async (req, res) => {
   const spesificUser = await User.findOne({ email });
 
   if (spesificUser) {
-    bcrypt.compare(password, spesificUser.password, (err, same) => {
-
-      if (same) {
-        //USER SESSION
-        req.session.userID = spesificUser._id;
-        res.status(200).redirect('/users/dashboard');
-
+    if(spesificUser.password === password) {
+      req.session.userID = spesificUser._id;
+      res.status(200).redirect('/users/dashboard');
       } else {
         res.status(400).json({
           status: 'fail',
         });
       }
-
-    });
-
   } else {
-    res.status(400).json({
-      status: 'fail',
-    });
+      res.status(400).json({
+        status: 'fail',
+      });
   }
+
 };
 
 exports.logoutUser = (req, res) => {
