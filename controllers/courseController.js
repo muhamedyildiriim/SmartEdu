@@ -113,14 +113,27 @@ exports.enrollCourse = async (req, res) => {
 
 
 exports.releaseCourse = async (req, res) => {
-
   try {
-
     const user = await User.findById(req.session.userID);
     await user.courses.pull({_id:req.body.course_id});
     await user.save();
-
     res.status(200).redirect('/users/dashboard')
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
+};
+
+
+exports.deleteCourse = async (req, res) => {
+
+  try {
+
+    const course = await Course.findOneAndDelete({slug:req.params.slug});
+    res.status(200).redirect('/users/dashboard')
+    req.flash('error', `${course.name} has been delete!`);
 
   } catch (error) {
     res.status(400).json({
